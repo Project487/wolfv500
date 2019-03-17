@@ -10,8 +10,8 @@
 
 int rpm;
 int kmh;
-int temp_water = 85;
-unsigned int press_oil = 75;
+int temp_water = 0;
+unsigned int press_oil = 0;
 float volt = 0;
 unsigned int percent_fuel = 0;
 
@@ -25,8 +25,13 @@ byte wolf1request[4] = {0x51, 0x00, 0x00, 0x1f};  //Wolf V550
 long wolf2previousMillis = 0;
 long wolf2interval = 500;
 int wolf2update = 0;
+
 //byte wolf2request[4] = {0x52, 0x00, 0x40, 0x1f}; //Wolf V500
 byte wolf2request[4] = {0x51, 0x00, 0x40, 0x1f}; //Wolf V550
+
+//byte AuxLS_base = 8; // Wolf v500
+byte AuxLS_base = 10; // Wolf v550
+
 byte wolfdata [64];
 byte readbyte = 0;
 int wolfcounter = 0;
@@ -110,14 +115,14 @@ void loop() {
        wolfcount = 0;
 
        if (wolfdata[12] < 4) {
-          press_oil = ((wolfdata[12] * 256) + wolfdata[13])* 75.0 / 930.0;   // Read AuxLS2 pin & convert to PSI
+          press_oil = ((wolfdata[AuxLS_base + 2] * 256) + wolfdata[AuxLS_base + 3])* 75.0 / 930.0;   // Read AuxLS2 pin & convert to PSI
        }
        if (wolfdata[14] < 4) {
-          percent_fuel = ((wolfdata[14] * 256) + wolfdata[15])* 100.0 / 930.0;   // Read AuxLS3 pin & convert to %fuel
+          percent_fuel = ((wolfdata[AuxLS_base + 4] * 256) + wolfdata[AuxLS_base + 5])* 100.0 / 930.0;   // Read AuxLS3 pin & convert to %fuel
        }
      }
 wolfcount++;
 
-Serial.print(rpm);Serial.print("|");Serial.print(kmh);Serial.print("|");Serial.println(press_oil);
+Serial.print(rpm);Serial.print("|");Serial.print(kmh);Serial.print("|");Serial.println(press_oil); // Apply out code here
 
 }
