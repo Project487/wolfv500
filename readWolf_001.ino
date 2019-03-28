@@ -114,12 +114,12 @@ void loop() {
        wolfcounter = 0;
        wolfcount = 0;
 
-       if (wolfdata[12] < 4) {
-          press_oil = ((wolfdata[AuxLS_base + 2] * 256) + wolfdata[AuxLS_base + 3])* 75.0 / 930.0;   // Read AuxLS2 pin & convert to PSI
-       }
-       if (wolfdata[14] < 4) {
-          percent_fuel = ((wolfdata[AuxLS_base + 4] * 256) + wolfdata[AuxLS_base + 5])* 100.0 / 930.0;   // Read AuxLS3 pin & convert to %fuel
-       }
+       
+       press_oil = ((wolfdata[AuxLS_base + 2] * 256) + wolfdata[AuxLS_base + 3])* 75.0 / 930.0;   // Read AuxLS2 pin & convert to PSI
+       
+       
+       percent_fuel = ((wolfdata[AuxLS_base + 4] * 256) + wolfdata[AuxLS_base + 5])* 100.0 / 930.0;   // Read AuxLS3 pin & convert to %fuel
+       
      }
 wolfcount++;
 
